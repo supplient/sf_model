@@ -1,0 +1,12 @@
+Map targets--
+    wall    #
+    empty    (space)
+    target  o
+
+Pedestrian json--
+    Use a list for pedestrians
+    Use a dict for one pedestrian, its keys are:
+        weight[optional]
+        radius[optional]
+        position
+        velocity
