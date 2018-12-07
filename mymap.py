@@ -26,6 +26,9 @@ class Map:
             if width != len(line):
                 raise Exception("Map: lines' lengths are not equal: " + str(width) + " and " + str(len(line)))
 
+        # init cache
+        self.cached_target_area = None
+
     def __str__(self):
         hor_bound = "".join([Map.mark_hor_bound for i in range(0, self.width()+2)])
         s = hor_bound + "\n"
@@ -62,3 +65,12 @@ class Map:
         else:
             return self.map_data[x[0]][x[1]] == Map.mark_target
         
+    def getTargetArea(self):
+        if self.cached_target_area:
+            return self.cached_target_area
+        self.cached_target_area = []
+        for x in range(0, self.width()):
+            for y in range(0, self.length()):
+                if(self.isTarget(x, y)):
+                    self.cached_target_area.append((x, y))
+        return self.cached_target_area
