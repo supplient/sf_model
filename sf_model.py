@@ -1,6 +1,8 @@
+import json
+
 from mymap import Map
 from pedestrian import Pedestrian
-import json
+from mylog import log
 
 def loadPedestrians(filename):
     json_data = None
@@ -12,6 +14,4 @@ def loadPedestrians(filename):
     return ped_list
 
 if __name__ == "__main__":
-    ped_list = loadPedestrians("one_ped.json")
-    for ped in ped_list:
-        print(ped)
+    log.error("233")
