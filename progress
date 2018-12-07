@@ -1,8 +1,9 @@
-    Build map input process
-    Make a basic map and an empty map
+ O  Build map input process
+ O  Build map print process
+ O  Make a basic map and an empty map
     Build PathSolver
     Build pedstrian and target_area input process
-    Build pedstrians' output process
+    Build pedstrians' print process
     Build Experiment and Pedstrian 
         assuming there is only one pedestrian
         and using the empty map

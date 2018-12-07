@@ -6,13 +6,12 @@ class Experiment
 
     attribute--
         time: the abstract time in one experiment
-        map: the map info. containing both the map size and wall info
+        map: the map info. containing both the wall info and target area
 
     method--
         init(map)
-        tick(pedestrians, target_area, time_tick)
+        tick(pedestrians, time_tick)
             [IN] pedestrians: pedestrians' positions and velocities
-                 target_area: the pedestrians' target area
                  time_tick: how much time to pass in this tick
             [OUT] pedestrians' positions and velocities after time_tick passed
 
