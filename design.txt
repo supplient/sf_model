@@ -1,0 +1,45 @@
+Note: This is the standard doc. There may some differcences between this file and the real implementation.
+      Use `property` to present constant attributes.
+
+class Experiment
+    one experiment's abstraction
+
+    attribute--
+        time: the abstract time in one experiment
+        map: the map info. containing both the map size and wall info
+
+    method--
+        init(map)
+        tick(pedestrians, target_area, time_tick)
+            [IN] pedestrians: pedestrians' positions and velocities
+                 target_area: the pedestrians' target area
+                 time_tick: how much time to pass in this tick
+            [OUT] pedestrians' positions and velocities after time_tick passed
+
+
+class Pedestrian
+    one pedestrian's abstraction
+
+    property--
+        weight
+        radius
+    
+    attribute--
+        position
+        velocity
+
+
+class PathSolver
+    path finding algorithm's abstraction
+
+    method--
+        init(map)
+        solve(from, to)
+            [IN] from: ONE position as the path's start
+                 to: MULTIPLE positions as the path's possible end
+            [OUT] If exists one path, return the path (may with 0 length, if from is in to)
+                  Otherwise, return None
+        
+
+class Config
+    the config's set
