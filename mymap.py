@@ -64,7 +64,7 @@ class Map:
             return self.map_data[x][y] == Map.mark_target
         else:
             return self.map_data[x[0]][x[1]] == Map.mark_target
-        
+
     def getTargetArea(self):
         if self.cached_target_area:
             return self.cached_target_area
