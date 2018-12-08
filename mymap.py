@@ -26,8 +26,11 @@ class Map:
             if width != len(line):
                 raise Exception("Map: lines' lengths are not equal: " + str(width) + " and " + str(len(line)))
 
+        # init cache
+        self.cached_target_area = None
+
     def __str__(self):
-        hor_bound = "".join([Map.mark_hor_bound for i in range(0, self.width() + 2)])
+        hor_bound = "".join([Map.mark_hor_bound for i in range(0, self.width()+2)])
         s = hor_bound + "\n"
         for line in self.map_data:
             s = s + Map.mark_ver_bound + line + Map.mark_ver_bound + "\n"
@@ -45,19 +48,29 @@ class Map:
             x: If y is given, this means pos's x. Otherwise this means the pos(x, y) itself.
             y: Optional. If given, this means pos's y.
         '''
-        if not (y is None):
+        if y:
             return self.map_data[x][y] == Map.mark_wall
         else:
             return self.map_data[x[0]][x[1]] == Map.mark_wall
 
     def isEmpty(self, x, y=None):
-        if not (y is None):
+        if y:
             return self.map_data[x][y] == Map.mark_empty
         else:
             return self.map_data[x[0]][x[1]] == Map.mark_empty
 
     def isTarget(self, x, y=None):
-        if not (y is None):
+        if y:
             return self.map_data[x][y] == Map.mark_target
         else:
             return self.map_data[x[0]][x[1]] == Map.mark_target
+
+    def getTargetArea(self):
+        if self.cached_target_area:
+            return self.cached_target_area
+        self.cached_target_area = []
+        for x in range(0, self.width()):
+            for y in range(0, self.length()):
+                if(self.isTarget(x, y)):
+                    self.cached_target_area.append((x, y))
+        return self.cached_target_area
