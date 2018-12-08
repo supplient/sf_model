@@ -5,7 +5,7 @@ import numpy as np
 
 
 def calLength(pos):
-    return math.sqrt(pos.x*pos.x + pos.y*pos.y)
+    return math.sqrt(pos[0]*pos[0] + pos[1]*pos[1])
 
 def calUnitVector(from_pos, to_pos):
     x = to_pos[0] - from_pos[0]
@@ -35,7 +35,7 @@ class Experiment:
 
         # cal joint force
         joint_list = []
-        for desire in zip(desire_list):
+        for desire in desire_list:
             joint = np.array((0, 0))
             joint = joint + desire
             joint_list.append(joint)
@@ -45,26 +45,26 @@ class Experiment:
             pos = np.array(ped.pos)
             vel = np.array(ped.vel)
             pos = pos + vel*time_tick
-            ped.pos = pos.tolist()
+            ped.pos = (int(pos[0]), int(pos[1]))
 
         # cal new velocity
         for ped, joint in zip(ped_list, joint_list):
             vel = np.array(ped.vel)
             vel = vel + joint*time_tick
-            ped.vel = vel.tolist()
+            ped.vel = (float(vel[0]), float(vel[1]))
 
         # update experiment's time
         self.time = self.time + time_tick
 
 
     def calDesire(self, ped):
-        res = (0, 0)
+        res = np.array((0, 0))
 
         path = self.path_solver.solve(ped.pos, self.map.getTargetArea())
         if not path:
             raise Exception("Pedstrain \n" + str(ped) + "\tcannot find any path to the target area.")
         if len(path) < 2: # has reach the target
-            return (0, 0)
+            return np.array((0, 0))
 
         e = calUnitVector(ped.pos, path[1])
         e = np.array(e)
