@@ -14,7 +14,7 @@ class Experiment
         tick(pedestrians, time_tick)
             [IN] pedestrians: pedestrians' positions and velocities
                  time_tick: how much time to pass in this tick
-            [OUT] pedestrians' positions and velocities after time_tick passed
+            [EFFECT] pedestrians' positions and velocities are updated
 
 
 class Pedestrian
