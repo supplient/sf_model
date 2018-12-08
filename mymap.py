@@ -48,19 +48,19 @@ class Map:
             x: If y is given, this means pos's x. Otherwise this means the pos(x, y) itself.
             y: Optional. If given, this means pos's y.
         '''
-        if y:
+        if not (y is None):
             return self.map_data[x][y] == Map.mark_wall
         else:
             return self.map_data[x[0]][x[1]] == Map.mark_wall
 
     def isEmpty(self, x, y=None):
-        if y:
+        if not (y is None):
             return self.map_data[x][y] == Map.mark_empty
         else:
             return self.map_data[x[0]][x[1]] == Map.mark_empty
 
     def isTarget(self, x, y=None):
-        if y:
+        if not (y is None):
             return self.map_data[x][y] == Map.mark_target
         else:
             return self.map_data[x[0]][x[1]] == Map.mark_target
