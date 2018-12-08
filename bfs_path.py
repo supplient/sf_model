@@ -1,30 +1,29 @@
 import mymap
 
 
-def bfs(x_start, y_start,targets):
-    map = mymap.Map("data/basic_map.txt");
-    width = map.width()
-    length = map.length()
+def bfs(x_start, y_start,targets, map_info):
+    width = map_info.width()
+    length = map_info.length()
     unsearched = list()
     searched = list()
 
     def search_by_node(x, y):
-        if x > 0 and (not map.isWall(x - 1, y)):
+        if x > 0 and (not map_info.isWall(x - 1, y)):
             if node_distance[x][y] + 1 < node_distance[x - 1][y] or node_distance[x - 1][y] == -1:
                 node_distance[x - 1][y] = node_distance[x][y] + 1
             if (x - 1, y) not in searched:
                 unsearched.append((x - 1, y))
-        if x < length - 1 and (not map.isWall(x + 1, y)):
+        if x < length - 1 and (not map_info.isWall(x + 1, y)):
             if node_distance[x][y] + 1 < node_distance[x + 1][y] or node_distance[x + 1][y] == -1:
                 node_distance[x + 1][y] = node_distance[x][y] + 1
             if (x + 1, y) not in searched:
                 unsearched.append((x + 1, y))
-        if y > 0 and (not map.isWall(x, y - 1)):
+        if y > 0 and (not map_info.isWall(x, y - 1)):
             if node_distance[x][y] + 1 < node_distance[x][y - 1] or node_distance[x][y - 1] == -1:
                 node_distance[x][y - 1] = node_distance[x][y] + 1
             if (x, y - 1) not in searched:
                 unsearched.append((x, y - 1))
-        if y < width - 1 and (not map.isWall(x, y + 1)):
+        if y < width - 1 and (not map_info.isWall(x, y + 1)):
             if node_distance[x][y] + 1 < node_distance[x][y + 1] or node_distance[x][y + 1] == -1:
                 node_distance[x][y + 1] = node_distance[x][y] + 1
             if (x, y + 1) not in searched:
@@ -36,7 +35,7 @@ def bfs(x_start, y_start,targets):
         min_distance = -1
         for x_axis in range(length):
             for y_axis in range(width):
-                if map.isTarget(x_axis, y_axis) and node_distance[x_axis][y_axis] != -1:
+                if map_info.isTarget(x_axis, y_axis) and node_distance[x_axis][y_axis] != -1:
                     if min_distance == -1 or node_distance[x_axis][y_axis] <= min_distance:
                         if node_distance[x_axis][y_axis] == min_distance:
                             targets.append((x_axis, y_axis))
@@ -51,17 +50,17 @@ def bfs(x_start, y_start,targets):
     '''
 
     def findNext(x, y):
-        if x > 0 and (not map.isWall(x - 1, y)):
+        if x > 0 and (not map_info.isWall(x - 1, y)):
             if node_distance[x][y] - 1 == node_distance[x - 1][y]:
                 return (x - 1, y)
 
-        if x < length - 1 and (not map.isWall(x + 1, y)):
+        if x < length - 1 and (not map_info.isWall(x + 1, y)):
             if node_distance[x][y] - 1 == node_distance[x + 1][y]:
                 return (x + 1, y)
-        if y > 0 and (not map.isWall(x, y - 1)):
+        if y > 0 and (not map_info.isWall(x, y - 1)):
             if node_distance[x][y] - 1 == node_distance[x][y - 1]:
                 return (x, y - 1)
-        if y < width - 1 and (not map.isWall(x, y + 1)):
+        if y < width - 1 and (not map_info.isWall(x, y + 1)):
             if node_distance[x][y] - 1 == node_distance[x][y + 1]:
                 return (x, y + 1)
         return None
@@ -73,7 +72,7 @@ def bfs(x_start, y_start,targets):
     if y_start < 0 or y_start >= width:
         print("wrong y_start")
         return
-    if not map.isEmpty(x_start, y_start):
+    if not map_info.isEmpty(x_start, y_start):
         print("wrong position")
         return
     node_distance[x_start][y_start] = 0

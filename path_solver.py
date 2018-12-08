@@ -12,9 +12,8 @@ class PathSolver:
             If the path is found, return the path as a list of tuples (x,y).
             Otherwise, return None
         '''
-        # TODO
-        result = bfs_path.bfs(from_pos[0],from_pos[1],to_area)
+        result = bfs_path.bfs(from_pos[0],from_pos[1],to_area, self.map)
         if result is None:
             return None
         else:
-            return result
+            return result[0]
