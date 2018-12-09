@@ -49,7 +49,12 @@ class Experiment:
                 rad_diff = ped.radius - dist
                 unit_vec = calUnitVector(ped.pos, wall)
                 orth_vec = calOrthogonalVector(unit_vec)
-                # TODO cal social force
+
+                # cal social force
+                social_force = np.array(unit_vec)
+                social_force = ped.A * social_force
+                social_force = math.exp(rad_diff/ped.B) * social_force
+                wall_joint = wall_joint + social_force
 
                 # cal physical force
                 if rad_diff > 0:
