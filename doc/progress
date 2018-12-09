@@ -15,7 +15,7 @@ X: Desprecated
  O  Start using the basic map
         assuming no social force
         (means add the wall's physical repulsive force)
-    Add social_force for the wall
+ O  Add social_force for the wall
     Add multiple pedstrians
         (means add the pedstrians' physical repulsive force and social force)
     Build the json interface

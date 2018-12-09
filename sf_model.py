@@ -30,8 +30,8 @@ def savePed(ped_list, time):
 
 
 if __name__ == "__main__":
-    map_info = Map("data/basic_map.txt")
-    ped_list = loadPedestrians("data/one_ped.json")
+    map_info = Map("data/empty_map.txt")
+    ped_list = loadPedestrians("data/three_ped.json")
     time_tick = config.default_time_tick
 
     experiment = Experiment(map_info)

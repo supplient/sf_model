@@ -1,4 +1,5 @@
 from path_solver import PathSolver
+from mylog import log
 import config
 import math
 import numpy as np
@@ -12,8 +13,8 @@ def calDistance(from_pos, to_pos):
     return calLength((to_pos[0]-from_pos[0], to_pos[1]-from_pos[1]))
 
 def calUnitVector(from_pos, to_pos):
-    x = to_pos[0] - from_pos[0]
-    y = to_pos[1] - from_pos[1]
+    x = from_pos[0] - to_pos[0]
+    y = from_pos[1] - to_pos[1]
     length = calLength((x,y))
     return (x/length, y/length)
 
@@ -38,6 +39,8 @@ class Experiment:
         for ped in ped_list:
             desire_list.append(self.calDesire(ped))
 
+        log.debug("Desire forces: " + str(desire_list))
+
         # cal force comes from wall
         wall_list = []
         for ped in ped_list:
@@ -51,10 +54,7 @@ class Experiment:
                 orth_vec = calOrthogonalVector(unit_vec)
 
                 # cal social force
-                social_force = np.array(unit_vec)
-                social_force = ped.A * social_force
-                social_force = math.exp(rad_diff/ped.B) * social_force
-                wall_joint = wall_joint + social_force
+                wall_joint = wall_joint + self.calSocial(unit_vec, rad_diff, ped.A, ped.B)
 
                 # cal physical force
                 if rad_diff > 0:
@@ -62,15 +62,39 @@ class Experiment:
                     wall_joint = wall_joint + self.calPhysical(unit_vec, orth_vec, rad_diff, ped_vel)
             wall_list.append(wall_joint)
 
+        log.debug("Wall froces: " + str(wall_list))
 
-        # TODO cal force comes from other pedestrians
+        # cal force comes from other pedestrians
+        others_list = []
+        for ped_i in ped_list:
+            ped_vel_i = np.array(ped_i.vel)
+            others_joint = np.array((0,0))
+            for ped_j in ped_list:
+                if ped_i == ped_j:
+                    continue
+                ped_vel_j = np.array(ped_j.vel)
+                dist = calDistance(ped_j.pos, ped_i.pos)
+                rad_diff = ped_i.radius + ped_j.radius - dist
+                unit_vec = calUnitVector(ped_i.pos, ped_j.pos)
+                orth_vec = calOrthogonalVector(unit_vec)
+
+                # cal social force
+                others_joint = others_joint + self.calSocial(unit_vec, rad_diff, ped_i.A, ped_i.B)
+
+                # cal physical force
+                if rad_diff > 0:
+                    others_joint = others_joint + self.calPhysical(unit_vec, orth_vec, rad_diff, ped_vel_j, ped_vel_i)
+            others_list.append(others_joint)
+
+        log.debug("Others forces: " + str(others_list))
 
         # cal joint force
         joint_list = []
-        for desire, wall in zip(desire_list, wall_list):
+        for desire, wall, others in zip(desire_list, wall_list, others_list):
             joint = np.array((0, 0))
             joint = joint + desire
             joint = joint + wall
+            joint = joint + others
             joint_list.append(joint)
         
         # cal new position(using old velocity)
@@ -92,9 +116,11 @@ class Experiment:
 
     def calDesire(self, ped):
         res = np.array((0, 0))
+        if ped.pos in self.map.getTargetArea():
+            return res # has reached, so no desire
 
         path = self.path_solver.solve(ped.pos, self.map.getTargetArea())
-        if not path:
+        if path == None:
             raise Exception("Pedstrain \n" + str(ped) + "\tcannot find any path to the target area.")
         if len(path) < 2: # has reach the target
             return np.array((0, 0))
@@ -117,3 +143,9 @@ class Experiment:
         friction_force = config.fric_arg * rad_diff * friction_force
 
         return support_force - friction_force
+
+    def calSocial(self, unit_vec, rad_diff, A, B):
+        social_force = np.array(unit_vec)
+        social_force = A * social_force
+        social_force = math.exp(rad_diff/B) * social_force
+        return social_force
