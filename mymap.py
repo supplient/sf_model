@@ -28,6 +28,7 @@ class Map:
 
         # init cache
         self.cached_target_area = None
+        self.cached_wall_area = None
 
     def __str__(self):
         hor_bound = "".join([Map.mark_hor_bound for i in range(0, self.width()+2)])
@@ -74,3 +75,13 @@ class Map:
                 if(self.isTarget(x, y)):
                     self.cached_target_area.append((x, y))
         return self.cached_target_area
+
+    def getWallArea(self):
+        if self.cached_wall_area:
+            return self.cached_wall_area
+        self.cached_wall_area = []
+        for x in range(0, self.width()):
+            for y in range(0, self.length()):
+                if(self.isWall(x, y)):
+                    self.cached_wall_area.append((x, y))
+        return self.cached_wall_area

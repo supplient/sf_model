@@ -1,4 +1,5 @@
 from path_solver import PathSolver
+import config
 import math
 import numpy as np
 # Note: Using numpy for internal vector calculating.
@@ -7,11 +8,17 @@ import numpy as np
 def calLength(pos):
     return math.sqrt(pos[0]*pos[0] + pos[1]*pos[1])
 
+def calDistance(from_pos, to_pos):
+    return calLength((to_pos[0]-from_pos[0], to_pos[1]-from_pos[1]))
+
 def calUnitVector(from_pos, to_pos):
     x = to_pos[0] - from_pos[0]
     y = to_pos[1] - from_pos[1]
     length = calLength((x,y))
     return (x/length, y/length)
+
+def calOrthogonalVector(ori_vec):
+    return (-ori_vec[1], ori_vec[0])
 
 class Experiment:
     def __init__(self, map_info, start_time=0):
@@ -31,13 +38,34 @@ class Experiment:
         for ped in ped_list:
             desire_list.append(self.calDesire(ped))
 
-        # TODO cal other forces
+        # cal force comes from wall
+        wall_list = []
+        for ped in ped_list:
+            ped_vel = np.array(ped.vel)
+            wall_area = self.map.getWallArea()
+            wall_joint = np.array((0, 0))
+            for wall in wall_area:
+                dist = calDistance(wall, ped.pos)
+                rad_diff = ped.radius - dist
+                unit_vec = calUnitVector(ped.pos, wall)
+                orth_vec = calOrthogonalVector(unit_vec)
+                # TODO cal social force
+
+                # cal physical force
+                if rad_diff > 0:
+                    # touched
+                    wall_joint = wall_joint + self.calPhysical(unit_vec, orth_vec, rad_diff, ped_vel)
+            wall_list.append(wall_joint)
+
+
+        # TODO cal force comes from other pedestrians
 
         # cal joint force
         joint_list = []
-        for desire in desire_list:
+        for desire, wall in zip(desire_list, wall_list):
             joint = np.array((0, 0))
             joint = joint + desire
+            joint = joint + wall
             joint_list.append(joint)
         
         # cal new position(using old velocity)
@@ -74,3 +102,13 @@ class Experiment:
         res = res / ped.turn_time
         res = res * ped.weight
         return res
+
+    def calPhysical(self, unit_vec, orth_vec, rad_diff, vel_j, vel_i = np.array((0,0))):
+        support_force = np.array(unit_vec)
+        support_force = config.k * rad_diff * support_force
+
+        friction_force = np.array(orth_vec)
+        friction_force = np.dot((vel_j - vel_i), friction_force) * friction_force
+        friction_force = config.fric_arg * rad_diff * friction_force
+
+        return support_force - friction_force
