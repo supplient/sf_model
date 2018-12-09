@@ -1,0 +1,14 @@
+[
+    {
+        "position": [2, 3],
+        "velocity": [0, 0]
+    },
+    {
+        "position": [1, 2],
+        "velocity": [0, 0]
+    },
+    {
+        "position": [3, 3],
+        "velocity": [0, 0]
+    }
+]

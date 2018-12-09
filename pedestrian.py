@@ -8,6 +8,8 @@ class Pedestrian:
     json_radius_key = "radius"
     json_desire_rate_key = "desire_rate"
     json_turn_time_key = "turn_time"
+    json_A_key = "A"
+    json_B_key = "B"
 
     def __init__(self, json_ped):
         self.pos = json_ped[Pedestrian.json_pos_key]
@@ -28,6 +30,14 @@ class Pedestrian:
             self.turn_time = json_ped[Pedestrian.json_turn_time_key]
         else:
             self.turn_time = config.default_turn_time
+        if Pedestrian.json_A_key in json_ped:
+            self.A = json_ped[Pedestrian.json_A_key]
+        else:
+            self.A = config.default_A
+        if Pedestrian.json_B_key in json_ped:
+            self.B = json_ped[Pedestrian.json_B_key]
+        else:
+            self.B = config.default_B
 
     def __str__(self):
         s = "pos: " + str(self.pos) + "\n"
@@ -36,6 +46,8 @@ class Pedestrian:
         s = s + "radius: " + str(self.radius) + "\n"
         s = s + "desire_rate: " + str(self.desire_rate) + "\n"
         s = s + "turn_time: " + str(self.turn_time) + "\n"
+        s = s + "A: " + str(self.A) + "\n"
+        s = s + "B: " + str(self.B) + "\n"
         return s
 
     def toJson(self):
@@ -46,4 +58,6 @@ class Pedestrian:
         json_ped[Pedestrian.json_radius_key] = self.radius
         json_ped[Pedestrian.json_desire_rate_key] = self.desire_rate
         json_ped[Pedestrian.json_turn_time_key] = self.turn_time
+        json_ped[Pedestrian.json_A_key] = self.A
+        json_ped[Pedestrian.json_B_key] = self.B
         return json_ped

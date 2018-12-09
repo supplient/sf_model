@@ -8,14 +8,14 @@ X: Desprecated
  H  Build PathSolver
  O  Build pedstrian input process
  O  Build pedstrians' print process
-    Build Experiment and Pedstrian 
+ O  Build Experiment and Pedstrian 
         assuming there is only one pedestrian
         and using the empty map
         (so here should only have desire force)
-    Start using the basic map
+ O  Start using the basic map
         assuming no social force
         (means add the wall's physical repulsive force)
-    Add social_force for the wall
+ O  Add social_force for the wall
     Add multiple pedstrians
         (means add the pedstrians' physical repulsive force and social force)
     Build the json interface
