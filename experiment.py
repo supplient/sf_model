@@ -48,7 +48,7 @@ class Experiment:
             wall_area = self.map.getWallArea()
             wall_joint = np.array((0, 0))
             for wall in wall_area:
-                dist = calDistance(wall, ped.pos)
+                dist = calDistance(wall, ped.pos)/self.map.scale
                 rad_diff = ped.radius - dist
                 unit_vec = calUnitVector(ped.pos, wall)
                 orth_vec = calOrthogonalVector(unit_vec)
@@ -102,6 +102,7 @@ class Experiment:
             pos = np.array(ped.pos)
             vel = np.array(ped.vel)
             pos = pos + vel*time_tick
+            pos = pos * self.map.scale
             ped.pos = (int(pos[0]), int(pos[1]))
 
         # cal new velocity
