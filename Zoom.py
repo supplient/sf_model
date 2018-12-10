@@ -35,11 +35,11 @@ class largeMap:
     # sign 为o/#/|/_这样的符号 只能画直线
     def draw(self, start, end, sign):
         if start[0] == end[0]:
-            for i in range(start[1], end[1]):
+            for i in range(start[1], end[1]+1):
                 self.new_map[start[0]][i] = sign
         else:
             if start[1] == end[1]:
-                for i in range(start[0], end[0]):
+                for i in range(start[0], end[0]+1):
                     self.new_map[i][start[1]] = sign
             else:
                 return None
@@ -49,7 +49,8 @@ class largeMap:
         for i in range(self.length):
             for t in range(self.width):
                 line.append(self.new_map[i][t])
-            line.append("\n")
+            if i != self.length-1:
+                line.append("\n")
 
         self.output_file.write("".join(line))
 

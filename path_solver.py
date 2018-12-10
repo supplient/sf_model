@@ -17,3 +17,8 @@ class PathSolver:
             return None
         else:
             return result[0]
+
+if __name__ == "__main__":
+    input_map = Map("data/largeMap")
+    path_solver = PathSolver(input_map)
+    path_solver.solve((55,55),[(0,55)])
