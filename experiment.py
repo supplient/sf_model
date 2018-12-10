@@ -126,7 +126,7 @@ class Experiment:
             return np.array((0, 0))
 
         e = calUnitVector(ped.pos, path[1])
-        e = np.array(e)
+        e = - np.array(e)
         res = ped.desire_rate * e
         vel = np.array(ped.vel)
         res = res - vel
