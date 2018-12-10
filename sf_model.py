@@ -30,12 +30,16 @@ def savePed(ped_list, time):
 
 
 if __name__ == "__main__":
-    map_info = Map("data/empty_map.txt")
+    map_info = Map("data/large_basic_map.txt")
     ped_list = loadPedestrians("data/three_ped.json")
     time_tick = config.default_time_tick
 
+    tick_count = 0
     experiment = Experiment(map_info)
     while not isAllReachTarget(ped_list, map_info.getTargetArea()):
+        if tick_count % 10 == 0:
+            print("Tick", tick_count)
         savePed(ped_list, experiment.time)
         experiment.tick(ped_list, time_tick)
+        tick_count = tick_count + 1
     savePed(ped_list, experiment.time)
