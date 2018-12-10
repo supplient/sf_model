@@ -25,7 +25,7 @@ class Experiment:
     def __init__(self, map_info, start_time=0):
         self.map = map_info
         self.time = start_time
-        self.path_solver = PathSolver(self.map)
+        self.path_solver = PathSolver(self.map, self.map.getTargetArea())
 
     def tick(self, ped_list, time_tick):
         '''[IN]
@@ -119,14 +119,14 @@ class Experiment:
         if ped.pos in self.map.getTargetArea():
             return res # has reached, so no desire
 
-        path = self.path_solver.solve(ped.pos, self.map.getTargetArea())
+        path = self.path_solver.solve(ped.pos)
         if path == None:
             raise Exception("Pedstrain \n" + str(ped) + "\tcannot find any path to the target area.")
         if len(path) < 2: # has reach the target
             return np.array((0, 0))
 
         e = calUnitVector(ped.pos, path[1])
-        e = np.array(e)
+        e = - np.array(e)
         res = ped.desire_rate * e
         vel = np.array(ped.vel)
         res = res - vel
