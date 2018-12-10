@@ -16,6 +16,7 @@ class PathSolver:
             If the path is found, return the path as a list of tuples (x,y).
             Otherwise, return None
         '''
+
         #result = bfs_path.bfs(from_pos[0],from_pos[1], self.to_area, self.map)
         result = self.a_star_solver.solve(from_pos)
         log.debug("Path: " + str(result))

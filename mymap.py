@@ -1,4 +1,6 @@
 class Map:
+    scale = 10 # means 1 meter : 100 points in map
+
     mark_target = "o"
     mark_wall = "#"
     mark_empty = " "

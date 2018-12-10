@@ -6,28 +6,28 @@ def bfs(x_start, y_start,targets, map_info):
     length = map_info.length()
     unsearched = list()
     searched = list()
-
+    wait_searched = list()
     def search_by_node(x, y):
         if x > 0 and (not map_info.isWall(x - 1, y)):
             if node_distance[x][y] + 1 < node_distance[x - 1][y] or node_distance[x - 1][y] == -1:
                 node_distance[x - 1][y] = node_distance[x][y] + 1
-            if (x - 1, y) not in searched:
-                unsearched.append((x - 1, y))
+            if (x - 1, y) not in searched and (x - 1, y) not in wait_searched:
+                wait_searched.append((x - 1, y))
         if x < length - 1 and (not map_info.isWall(x + 1, y)):
             if node_distance[x][y] + 1 < node_distance[x + 1][y] or node_distance[x + 1][y] == -1:
                 node_distance[x + 1][y] = node_distance[x][y] + 1
-            if (x + 1, y) not in searched:
-                unsearched.append((x + 1, y))
+            if (x + 1, y) not in searched and (x + 1, y) not in wait_searched:
+                wait_searched.append((x + 1, y))
         if y > 0 and (not map_info.isWall(x, y - 1)):
             if node_distance[x][y] + 1 < node_distance[x][y - 1] or node_distance[x][y - 1] == -1:
                 node_distance[x][y - 1] = node_distance[x][y] + 1
-            if (x, y - 1) not in searched:
-                unsearched.append((x, y - 1))
+            if (x, y-1) not in searched and (x, y-1) not in wait_searched:
+                wait_searched.append((x, y - 1))
         if y < width - 1 and (not map_info.isWall(x, y + 1)):
             if node_distance[x][y] + 1 < node_distance[x][y + 1] or node_distance[x][y + 1] == -1:
                 node_distance[x][y + 1] = node_distance[x][y] + 1
-            if (x, y + 1) not in searched:
-                unsearched.append((x, y + 1))
+            if (x, y+1) not in searched and (x, y+1) not in wait_searched:
+                wait_searched.append((x, y + 1))
 
     ''''
     def getTarget():
@@ -78,14 +78,18 @@ def bfs(x_start, y_start,targets, map_info):
     node_distance[x_start][y_start] = 0
     search_by_node(x_start, y_start)
     searched.append((x_start, y_start))
-    while len(unsearched) != 0:
-        node = unsearched.pop(0)
+    '''
+    for i in range(width):
+        for t in range(length):
+            unsearched.append((i,t))
+    '''
+    while len(wait_searched) != 0:
+        node = wait_searched.pop(0)
         searched.append(node)
         search_by_node(node[0], node[1])
     result = list()
     for target in targets:
         path = list()
-
         path.append(target)
         next_node = findNext(target[0], target[1])
         path.append(next_node)
