@@ -29,16 +29,17 @@ class MapCreator:
             fd.write("".join(line))
 
 def createBasicLargeMap():
-    size = 100
-    half_size = int(10/2)
-    large_map = MapCreator(size, size)
-    large_map.draw((0,0), (size-1,0), Map.mark_target)
-    large_map.draw((0,1), (size-1,1), Map.mark_target)
-    large_map.draw((0,2), (half_size-1,2), Map.mark_wall)
-    large_map.draw((half_size+1,2), (size-1,2), Map.mark_wall)
-    large_map.draw((0,3), (0,size-1), Map.mark_wall)
-    large_map.draw((size-1,3), (size-1,size-1), Map.mark_wall)
-    large_map.draw((0,size-1), (size-1,size-1), Map.mark_wall)
+    size1 = 400
+    size2 = 500
+    half_size = int(size1/2)
+    large_map = MapCreator(size1, size2)
+    large_map.draw((0,0), (size1-1,0), Map.mark_target)
+    large_map.draw((0,1), (size1-1,1), Map.mark_target)
+    large_map.draw((0,2), (half_size-50,2), Map.mark_wall)
+    large_map.draw((half_size+50,2), (size1-1,2), Map.mark_wall)
+    large_map.draw((0,3), (0,size2-1), Map.mark_wall)
+    large_map.draw((size1-1,3), (size1-1,size2-1), Map.mark_wall)
+    large_map.draw((0,size2-1), (size1-1,size2-1), Map.mark_wall)
     large_map.output("data/large_basic_map.txt")
 
 def createExampleMap():

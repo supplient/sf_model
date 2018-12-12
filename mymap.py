@@ -1,5 +1,5 @@
 class Map:
-    scale = 100 # means 1 meter : 100 points in map
+    scale = 1 # means 1 meter : 100 points in map
 
     mark_target = "o"
     mark_wall = "#"
@@ -72,8 +72,8 @@ class Map:
         if self.cached_target_area:
             return self.cached_target_area
         self.cached_target_area = []
-        for x in range(0, self.width()):
-            for y in range(0, self.length()):
+        for x in range(0, self.length()):
+            for y in range(0, self.width()):
                 if(self.isTarget(x, y)):
                     self.cached_target_area.append((x, y))
         return self.cached_target_area
@@ -82,8 +82,8 @@ class Map:
         if self.cached_wall_area:
             return self.cached_wall_area
         self.cached_wall_area = []
-        for x in range(0, self.width()):
-            for y in range(0, self.length()):
+        for x in range(0, self.length()):
+            for y in range(0, self.width()):
                 if(self.isWall(x, y)):
                     self.cached_wall_area.append((x, y))
         return self.cached_wall_area

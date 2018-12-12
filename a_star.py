@@ -41,9 +41,9 @@ class AStarSolver:
         self.father_tab = []
 
         # init h
-        for y in range(map_info.length()):
+        for y in range(map_info.width()):
             H_line = []
-            for x in range(map_info.width()):
+            for x in range(map_info.length()):
                 if map_info.isWall(x, y):
                     H_line.append(-1)
                 elif map_info.isTarget(x, y):
@@ -53,10 +53,10 @@ class AStarSolver:
             self.H_tab.append(H_line)
 
         # fill father, G, F
-        for y in range(map_info.length()):
+        for y in range(map_info.width()):
             father_line = []
             G_line = []
-            for x in range(map_info.width()):
+            for x in range(map_info.length()):
                 father_line.append(None)
                 G_line.append(None)
             self.father_tab.append(father_line)
@@ -71,17 +71,17 @@ class AStarSolver:
             if pos[1] > 0:
                 res.append((pos[0]-1, pos[1]-1)) # left-up
             res.append((pos[0]-1, pos[1])) # left
-            if pos[1] < self.map.length()-1:
+            if pos[1] < self.map.width()-1:
                 res.append((pos[0]-1, pos[1]+1)) # left-down
-        if pos[0] < self.map.width()-1:
+        if pos[0] < self.map.length()-1:
             if pos[1] > 0:
                 res.append((pos[0]+1, pos[1]-1)) # right-up
             res.append((pos[0]+1, pos[1])) # right
-            if pos[1] < self.map.length()-1:
+            if pos[1] < self.map.width()-1:
                 res.append((pos[0]+1, pos[1]+1)) # right-down
         if pos[1] > 0:
             res.append((pos[0], pos[1]-1)) # up
-        if pos[1] < self.map.length()-1:
+        if pos[1] < self.map.width()-1:
             res.append((pos[0], pos[1]+1)) # down
         return res
 

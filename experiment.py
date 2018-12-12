@@ -101,8 +101,7 @@ class Experiment:
         for ped in ped_list:
             pos = np.array(ped.pos)
             vel = np.array(ped.vel)
-            pos = pos + vel*time_tick
-            pos = pos * self.map.scale
+            pos = pos + vel* self.map.scale*time_tick
             ped.pos = (int(pos[0]), int(pos[1]))
 
         # cal new velocity
